@@ -1,0 +1,50 @@
+#include<stdio.h>
+main()
+{
+    int arr[1000],len,n,i,j,end,base,mid,q,fg=0;
+    scanf("%d",&n);
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&arr[i]);
+    }
+    printf("The query is: ");
+    scanf("%d",&q);
+   // len= strlen(arr);
+  //  printf("%d\n",len);
+    base=0;
+    end= n-1;
+
+    while(base!=end)
+    {
+        mid=(base+end)/2;
+        if(q>arr[mid])
+        {
+            base=mid+1;
+        }
+        else if(q<arr[mid])
+        {
+            end=mid-1;
+        }
+        else if(q==arr[mid])
+        {
+            fg=1;
+            break;
+        }
+        else if(q==arr[base])
+        {
+            fg=1;
+            mid=base;
+            break;
+        }
+        else if(q=arr[end])
+        {
+            fg=1;
+            mid=end;
+            break;
+        }
+
+    }
+    if(fg==1) printf("Q is in arr[%d] position",base);
+    else printf("The element doesn't exist");
+
+}
