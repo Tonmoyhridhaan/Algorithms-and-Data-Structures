@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int arr[7]={1,4,1,2,7,5,2},i,cnt[10]={0}, p[10];
+    for(i=0;i<7;i++)
+    {
+        cout<<arr[i]<<' ';
+    }
+    cout<<endl;
+    for(i=0;i<7;i++)
+    {
+        cnt[arr[i]]++;
+    }
+    for(i=0;i<7;i++)
+    {
+        cout<<arr[i]<<' ';
+    }
+    for(i=1;i<10;i++)
+    {
+        cnt[i] = cnt[i]+cnt[i-1];
+    }
+    cout<<endl;
+    for(i=0;i<7;i++)
+    {
+        cout<<arr[i]<<' ';
+    }
+    cout<<endl;
+    for(i=0;i<10;i++)
+    {
+        cout<<cnt[i]<<' ';
+    }
+    for(i=0;i<7;i++)
+    {
+        p[cnt[arr[i]]] = arr[i];
+        cnt[arr[i]]--;
+
+    }
+    cout<<endl;
+    for(i=1;i<8;i++)
+    {
+        cout<<p[i]<<' ';
+    }
+}
