@@ -1,0 +1,74 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+int compute(string pat,int lps[])
+{
+    int i = 1;
+    lps[0] = 0;
+    int len = 0;
+    while(i<pat.size())
+    {
+        if(pat[len]==pat[i])
+        {
+            len++;
+            lps[i] = len;
+            i++;
+        }
+        else
+        {
+            if(len!=0)
+            {
+                len = lps[len-1];
+            }
+            else
+            {
+                lps[i] = 0;
+                i++;
+            }
+        }
+    }
+}
+int Find(string txt, string pat, int lps[])
+{
+    int i=0,j=0;
+    bool fg = false;
+    while(i<txt.size())
+    {
+        if(txt[i]==pat[j])
+        {
+            i++;
+            j++;
+        }
+
+        if(j==pat.size())
+        {
+            fg = true;
+            break;
+        }
+        else if(i < txt.size() && pat[j]!=txt[i])
+        {
+            if(j!=0)
+            {
+                j = lps[j-1];
+            }
+            else i++;
+        }
+
+    }
+    if(fg == false) printf("Not found");
+    else printf("found in %d position",i-j);
+
+}
+int main()
+{
+    string pat;
+    string txt;
+
+    cin>>txt;
+    cin>>pat;
+    int lps[pat.size()];
+    compute(pat,lps);
+    Find(txt,pat,lps);
+
+
+}
