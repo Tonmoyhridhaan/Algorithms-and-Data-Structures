@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define sf scanf
+#define pf printf
+#define pb push_back
+#define all(a) a.begin(),a.end()
+#define i64 long long int
+const double pi = 2*acos(0);
+const int maxn = (i64)2e5+5;
+int srt[10000];
+void Merge(int *arr,int l, int m , int h)
+{
+    int i, j, k;
+
+    i = l;
+    j = m+1;
+    k = l;
+
+    while(i<=m && j<=h)
+    {
+        if(arr[i]<=arr[j]) srt[k++] = arr[i++];
+        else srt[k++] = arr[j++];
+    }
+
+    while(i<=m) srt[k++] = arr[i++];
+    while(j<=h) srt[k++] = arr[j++];
+
+    for(k = l ; k<=h ; k++) arr[k] = srt[k];
+}
+
+void merge_sort(int *arr,int l , int h)
+{
+    if(l<h)
+    {
+        int m = l+(h-l)/2;
+
+        merge_sort(arr,l,m);
+        merge_sort(arr,m+1,h);
+
+        Merge(arr,l,m,h);
+    }
+}
+
+int main()
+{
+    int n,i=0;
+    cin>>n;
+    int arr[n];
+    while(i<n) cin>>arr[i++];
+
+    merge_sort(arr,0,n-1);
+
+    for(i = 0 ; i<n ; i++) cout<<arr[i]<<" ";
+return 0;
+}
+
