@@ -1,0 +1,51 @@
+#include<iostream>
+using namespace std;
+#define sf scanf
+#define pf printf
+#define pb push_back
+#define all(a) a.begin(),a.end()
+#define i64 long long int
+
+int div(int *arr,int low , int high)
+{
+    int m = (low+high)/2;
+    swap(arr[low],arr[m]);
+    int piv = arr[low] ;
+    int lft = low+1;
+    int rt = high;
+
+    while(lft<=rt)
+    {
+        while(arr[rt]>piv) rt--;
+        while(lft<=rt && arr[lft]<piv) lft++;
+        if(lft<rt)
+        {
+            swap(arr[lft],arr[rt]);
+            lft++;
+            rt--;
+        }
+    }
+    swap(arr[low],arr[rt]);
+    return rt;
+}
+void quicksort(int *arr,int low,int high)
+{
+    if(low<high)
+    {
+        int piv = div(arr,low,high);
+        quicksort(arr,low,piv);
+        quicksort(arr,piv+1,high);
+    }
+}
+int main()
+{
+    int n,i;
+    sf("%d",&n);
+    int arr[n];
+    for(i = 0 ; i<n ; i++) sf("%d",&arr[i]);
+    quicksort(arr,0,n-1);
+    for(i = 0 ; i<n ; i++) pf("%d ",arr[i]);
+
+return 0;
+}
+
