@@ -1,0 +1,52 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define pb push_back
+#define pii pair<int,int>
+#define pob pop_back
+#define all(a) a.begin(),a.end()
+#define fio ios_base::sync_with_stdio(false); cin.tie(0);cout.tie(0);
+#define i64 long long int
+#define mem(x,y) memset(x,y,sizeof(x))
+#define fill(arr,b) fill(arr, arr+sizeof(arr)/sizeof(arr[0]), b)
+
+const double pi = acos(-1.0);
+const int maxn = (i64)2e5+5;
+bool vis[100];
+vector<int>v[100];
+queue<int>q;
+void bfs(int s)
+{
+    q.push(s);
+    vis[s]=1;
+    while(!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        vis[u]=1;
+        for(int i = 0 ; i<v[u].size() ; i++)
+        {
+            if(!vis[v[u][i]])
+            {
+                q.push(v[u][i]);
+                vis[v[u][i]]=1;
+            }
+        }
+    }
+}
+int main()
+{
+    int e,n1,n2,s,n;
+    cin >> e >> n;
+    while(e--)
+    {
+        cin >> n1 >> n2;
+        v[n1].pb(n2);
+        v[n2].pb(n1);
+    }
+    cin >> s;
+    bfs(s);
+    for(int i = 0 ; i<n ; i++) cout<<vis[i]<< " ";
+
+return 0;
+}
+
