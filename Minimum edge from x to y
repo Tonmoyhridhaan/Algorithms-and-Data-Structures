@@ -1,0 +1,68 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define pb push_back
+#define pii pair<int,int>
+#define pli pair<long long int,int>
+#define pob pop_back
+#define all(a) a.begin(),a.end()
+#define fio ios_base::sync_with_stdio(false); cin.tie(0);cout.tie(0);
+#define i64 long long int
+#define mem(x,y) memset(x,y,sizeof(x))
+#define fill(arr,b) fill(arr, arr+sizeof(arr)/sizeof(arr[0]), b)
+#define maxarr(n,arr,m) m =-1e9;for(int i=0;i<n;i++)if(arr[i]>m) m=arr[i];
+
+const double pi = acos(-1.0);
+const int maxn = (i64)2e5+5;
+
+bool vis[1003];
+vector<int>v[1003];
+int from[1003];
+queue<int>q;
+void bfs(int s,int y)
+{
+    q.push(s);
+    vis[s]=1;
+    while(!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        vis[u]=1;
+        for(int i = 0 ; i<v[u].size() ; i++)
+        {
+            if(!vis[v[u][i]])
+            {
+                q.push(v[u][i]);
+                vis[v[u][i]]=1;
+                from[v[u][i]] = u;
+                if(v[u][i] == y) return;
+            }
+        }
+    }
+
+}
+int main()
+{
+    int n,m,t,c,x,y;
+    cin >> n >> m >> t >> c;
+    while(m--)
+    {
+        cin >> x >> y;
+        v[x].pb(y);
+        v[y].pb(x);
+    }
+    for(int i = 1 ; i<=n ; i++) sort(all(v[i])); //Making it lexicographically minimum
+    cin >> x >> y;
+    bfs(x,y);
+    t = y;
+    vector<int> nodes;
+    while(t!=x)
+    {
+        nodes.pb(t);
+        t = from[t];
+    }
+    cout << nodes.size()+1 << endl;
+    cout << x <<" ";
+    for(int i = nodes.size()-1 ; i>=0 ; i--) cout << nodes[i] << " ";
+
+    return 0;
+}
