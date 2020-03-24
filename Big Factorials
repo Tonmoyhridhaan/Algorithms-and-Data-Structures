@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define pb push_back
+#define pii pair<int,int>
+#define pli pair<long long int,int>
+#define pob pop_back
+#define all(a) a.begin(),a.end()
+#define fio ios_base::sync_with_stdio(false); cin.tie(0);cout.tie(0);
+#define i64 long long int
+#define mem(x,y) memset(x,y,sizeof(x))
+#define fill(arr,b) fill(arr, arr+sizeof(arr)/sizeof(arr[0]), b)
+#define maxarr(n,arr,m) m =-1e9;for(int i=0;i<n;i++)if(arr[i]>m) m=arr[i];
+
+const double pi = acos(-1.0);
+const int maxn = (i64)2e5+5;
+
+int arr[100006];
+int main()
+{
+    int n,j;
+    cin >> n;
+    arr[0] = 1;
+    int sz = 1;
+    for(int i = 2 ; i<=n ; i++)
+    {
+        int carry = 0;
+        for(j = 0 ; j<sz ; j++)
+        {
+            int x = arr[j]*i+carry;
+            arr[j] = x%10;
+            carry = x/10;
+        }
+        sz = j;
+        while(carry)
+        {
+            arr[sz]=carry%10;
+            carry/=10;
+            sz ++;
+        }
+    }
+    for(int i = sz-1 ; i>=0 ; i--) cout << arr[i];
+
+return 0;
+}
