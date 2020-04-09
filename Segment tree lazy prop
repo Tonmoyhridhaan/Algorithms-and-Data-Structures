@@ -1,0 +1,88 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define pb push_back
+#define pii pair<int,int>
+#define pli pair<long long int,int>
+#define pbi pair<bool,int>
+#define pob pop_back
+#define all(a) a.begin(),a.end()
+#define fio ios_base::sync_with_stdio(false); cin.tie(0);cout.tie(0);
+#define i64 long long int
+#define mem(x,y) memset(x,y,sizeof(x))
+#define fill(arr,b) fill(arr, arr+sizeof(arr)/sizeof(arr[0]), b)
+#define maxarr(n,arr,m) m =-1e9;for(int i=0;i<n;i++)if(arr[i]>m) m=arr[i];
+
+const double pi = acos(-1.0);
+const int maxn = (i64)2e9+5;
+
+int arr[100005];
+struct{
+    int sum;
+    int prop;
+} tree[300005];
+
+void build(int node, int b, int e)
+{
+    if(b==e)
+    {
+        tree[node].sum = arr[b];
+        return ;
+    }
+    int m = (b+e)/2;
+    build(node<<1,b,m);
+    build((node<<1)+1,m+1,e);
+    tree[node].sum = tree[node<<1].sum + tree[(node<<1)+1].sum;
+}
+
+void update(int node, int b, int e, int i, int j, int v)
+{
+    if(b>j || e<i) return;
+    else if(b>=i && e<=j) //নোডের রেঞ্জ আপডেটের রেঞ্জের ভিতরে
+    {
+        tree[node].sum += (e-b+1) * v; //নিচে নোড আছে e-b+1 টি, তাই e-b+1 বার x যোগ হবে এই রেঞ্জে
+        tree[node].prop += v; //নিচের নোডগুলোর সাথে x যোগ হবে
+        return;
+    }
+    int m = (b+e)/2;
+    update(node<<1,b,m,i,j,v);
+    update((node<<1)+1,m+1,e,i,j,v);
+    tree[node].sum = tree[node<<1].sum + tree[(node<<1)+1].sum + tree[node].prop * (e-b+1);
+}
+int query(int node, int b, int e, int i , int j , int c)
+{
+    if(b>j || e<i) return 0;
+    else if(b>=i && e<=j)
+    {
+        return tree[node].sum + c * (e-b+1); //সাম এর সাথে যোগ হবে সেই রেঞ্জের সাথে অতিরিক্ত যত যোগ করতে বলেছে সেটা
+    }
+    int m = (b+e)/2;
+    c=tree[node].prop+c; //প্রপাগেট ভ্যালু বয়ে নিয়ে যাচ্ছে carry ভ্যারিয়েবল
+    int s1 = query(node<<1,b,m,i,j,c);
+    int s2 = query((node<<1)+1,m+1,e,i,j,c);
+    return s1+s2;
+}
+int main()
+{
+    int n,q;
+    cin >> n >> q;
+    for(int i = 1 ; i<=n ; i++) cin >> arr[i];
+    build(1,1,n);
+    while(q--)
+    {
+        bool a;
+        int i,j;
+        cin >> a >> i >> j;
+        if(!a)
+        {
+            int v;
+            cin >> v;
+            update(1,1,n,i,j,v);
+        }
+        else
+        {
+            cout << query(1,1,n,i,j,0) << endl;
+        }
+    }
+
+    return 0;
+}
