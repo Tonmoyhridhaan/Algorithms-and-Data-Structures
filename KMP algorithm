@@ -1,74 +1,69 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define pb push_back
 
-int compute(string pat,int lps[])
+vector<int> indices;
+vector<int> createlps(string pat)
 {
-    int i = 1;
-    lps[0] = 0;
-    int len = 0;
-    while(i<pat.size())
+    int sz = pat.size();
+    vector<int>lps(sz);
+    int i = 0;
+    for(int j = 1 ; j<sz ; )
     {
-        if(pat[len]==pat[i])
+        if(pat[i] == pat[j])
         {
-            len++;
-            lps[i] = len;
-            i++;
+            lps[j] = i+1;i++;j++;
         }
         else
         {
-            if(len!=0)
-            {
-                len = lps[len-1];
-            }
-            else
-            {
-                lps[i] = 0;
-                i++;
-            }
+            if(i!=0) i = lps[i-1];
+            else j++;
         }
     }
+    return lps;
 }
-int Find(string txt, string pat, int lps[])
-{
-    int i=0,j=0;
-    bool fg = false;
-    while(i<txt.size())
-    {
-        if(txt[i]==pat[j])
-        {
-            i++;
-            j++;
-        }
 
-        if(j==pat.size())
+void kmp(string text, string pat)
+{
+    vector<int>lps = createlps(pat);
+    int sz = text.size(), i=0, j=0;
+    //bool found = false;
+    while(i<sz)
+    {
+        if(text[i] == pat[j])
         {
-            fg = true;
-            break;
+            i++ ; j++;
         }
-        else if(i < txt.size() && pat[j]!=txt[i])
+        else
         {
-            if(j!=0)
-            {
-                j = lps[j-1];
-            }
+            if(j!=0) j = lps[j-1];
             else i++;
         }
+        if(j == pat.size())
+        {
+            //found = 1;
+            indices.pb(i-pat.size());
+            j = lps[j-1];
+            //break;
+        }
 
     }
-    if(fg == false) printf("Not found");
-    else printf("found in %d position",i-j);
-
 }
 int main()
 {
-    string pat;
-    string txt;
+   //freopen("input.txt","r",stdin);
+   string pat,text;
 
-    cin>>txt;
-    cin>>pat;
-    int lps[pat.size()];
-    compute(pat,lps);
-    Find(txt,pat,lps);
+   getline(cin,text);
+   getline(cin,pat);
+   kmp(text,pat);
 
+   int sz = indices.size();
+   if(sz == 0) cout << "Not found";
+   else
+   {
+       for(int i = 0 ; i<sz ; i++) cout << indices[i] << " ";
+   }
 
+return 0;
 }
