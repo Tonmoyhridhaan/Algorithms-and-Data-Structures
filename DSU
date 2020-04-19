@@ -1,0 +1,32 @@
+#include<bits/stdc++.h>
+using namespace std;
+int p[20005];
+void f(int i)
+{
+    if(i==20005) return;
+    p[i] = i;
+    f(++i);
+}
+int find(int x)
+{
+    if(p[x]==x) return x;
+    return p[x] = find(p[x]);
+}
+void union_set(int x, int y)
+{
+    p[find(y)] = find(x);
+}
+int main()
+{
+   f(0);
+   int n=5;
+   while(1)
+   {
+       int x,y;
+       cin >> x >> y;
+       union_set(x,y);
+       for(int i = 1 ; i<=n ; i++) cout << i <<" ";cout<<endl;
+       for(int i = 1 ; i<=n ; i++) cout << p[i] <<" ";cout<<endl;
+   }
+   return 0;
+}
