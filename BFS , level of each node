@@ -1,0 +1,45 @@
+
+#include<bits/stdc++.h>
+using namespace std;
+#define pb push_back
+int level[100];
+bool vis[100];
+vector<int>v[100];
+queue<int>q;
+void bfs(int s)
+{
+    q.push(s);
+    vis[s]=1;
+    level[s]=0;
+    while(!q.empty())
+    {
+        int u = q.front();
+        q.pop();
+        vis[u]=1;
+        for(int i = 0 ; i<v[u].size() ; i++)
+        {
+            if(!vis[v[u][i]])
+            {
+                level[v[u][i]] = level[u]+1;
+                q.push(v[u][i]);
+                vis[v[u][i]]=1;
+            }
+        }
+    }
+
+}
+int main()
+{
+    int e,n1,n2,s,n;
+    cin >> e >> n;
+    while(e--)
+    {
+        cin >> n1 >> n2;
+        v[n1].pb(n2);
+        v[n2].pb(n1);
+    }
+    cin >> s;
+    bfs(s);
+    for(int i = 1 ; i<=n ; i++) cout<<i<<" "<<level[i]<<endl;
+return 0;
+}
