@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+#define sz 200005
+
+int depth[sz]; //depth or level+1 of each node
+int sub[sz];   //subtree size of each node
+int diff[sz];  //difference between size of subtree and depth
+vector<int> con[sz];
+
+int dfs(int u,int f)
+{
+    depth[u]=depth[f]+1;
+    sub[u]=1;
+	for(int i=0;i<con[u].size();++i)
+    {
+		if (con[u][i]==f)continue;
+		sub[u]+=dfs(con[u][i],u);
+	}
+	diff[u]=sub[u]-depth[u];
+	return sub[u];
+}
+
+int main()
+{
+    int n,u,v,k;
+    cin >> n;
+    for(int i = 0 ; i<n-1 ; i++)
+    {
+        cin >> u >> v;
+        con[u].pb(v);
+        con[v].pb(u);
+    }
+    dfs(1,0);
+}
