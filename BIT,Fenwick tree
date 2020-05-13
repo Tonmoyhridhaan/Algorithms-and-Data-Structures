@@ -1,3 +1,9 @@
+/*
+BIT diye 1-i porjonto max min 1uery kora jabe
+  i-j porjonto sum query kora jabe
+update and query complexity O(logn)
+*/
+
 #include<bits/stdc++.h>
 using namespace std;
 int arr[200005];
