@@ -1,0 +1,68 @@
+/*
+     without Lazy segment tree
+     range query kora jabe(sum,min,max)
+     update kora jabe shudhu 1 ta value
+     
+     query & update comp O(logn)
+     init comp O(nlogn)
+*/
+
+
+#include<bits/stdc++.h>
+using namespace std;
+int arr[10000];
+int tree[30000];
+
+void init(int node, int b, int e){
+    if(b == e){
+         tree[node] = arr[b];
+         return;
+    }
+    int left = node<<1;
+    int right = (node<<1) + 1;
+    int m = (b+e)/2;
+    init(left,b,m);
+    init(right,m+1,e);
+    tree[node] = tree[left]+tree[right];   //changes for max and min
+}
+
+int query(int node, int b, int e, int i, int j){
+    if(e<i || b>j) return 0;   // return value changes for max and min
+    else if(e<=j && b>=i){
+        return tree[node];
+    }
+    int left = node<<1;
+    int right = (node<<1) + 1;
+    int m = (b+e)/2;
+    int v1 = query(left,b,m,i,j);
+    int v2 = query(right,m+1,e,i,j);
+    return v1 + v2;        //changes for max and min
+}
+
+void update(int node, int b, int e, int i, int value){
+    if(i<b || i>e) return;
+    else if(b<=i && e>=i){     //b==i&&i==e for max and min
+        tree[node] += value;
+        return;
+    }
+    int left = node<<1;
+    int right = (node<<1) + 1;
+    int m = (b+e)/2;
+    update(left,b,m,i,value);
+    update(right,m+1,e,i,value);
+    tree[node] = tree[left]+tree[right];    //changes for max and min
+}
+
+int main()
+{
+    int n;
+    cin>>n;
+    for(int i = 1 ; i<=n ; i++) cin>>arr[i];
+
+    init(1,1,n);
+    int i,j;
+    cin>>i>>j;
+    cout<<query(1,1,n,i,j);
+    return 0;
+}
+
