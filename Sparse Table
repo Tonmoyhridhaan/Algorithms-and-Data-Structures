@@ -1,0 +1,49 @@
+/*
+sparse table shudhu min and max query er jnno useable
+kono update kora jabena
+predefine init er complexity O(nlogn)
+query er jnno O(1)
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int arr[10000005];
+int st[24][10000005];
+void init(int n)
+{
+    for(int i=0;i<n;i++) st[0][i]=i;
+    for(int k=1;(1<<k)<n;k++)
+    {
+        for(int i=0;i+(1<<k)<=n;i++)
+        {
+            int x=st[k-1][i];
+            int y=st[k-1][i+(1<<k-1)];
+            st[k][i]=(arr[x]<=arr[y])?x:y; //min max er upor change
+        }
+    }
+}
+int query(int i,int j)
+{
+    int k=__lg(j-i);
+    int x=st[k][i];
+    int y=st[k][j-(1<<k)+1];
+    return arr[x]<arr[y]?x:y;    // min max er upor change
+
+}
+int main()
+{
+    //read;
+    int n,q;
+    cin>>n>>q;
+    for(int i=0;i<n;i++) cin>>arr[i];
+    init(n);
+    while(q--)
+    {
+        int i,j;
+        cin>>i>>j;
+        cout<<arr[query(i,j)]<<endl;
+    }
+    return 0;
+}
+
