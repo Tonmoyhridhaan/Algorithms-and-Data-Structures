@@ -1,0 +1,62 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define pb push_back
+
+struct data
+{
+    string name;
+    int height, weight;
+    long long income;
+    /*__________ Operator overloading __________*/
+    bool operator<(const data &b) const
+    {
+        if( income == b.income )
+        {
+            if( height == b.height )
+            {
+                if( weight == b.weight )
+                  return name.size() < b.name.size();
+                else return weight < b.weight;
+            }
+            else return height > b.height;
+        }
+        else return income > b.income;
+    }
+};
+   /*__________extra functon__________
+
+bool compare(struct data a ,struct data b)
+{
+    if( a.income == b.income )
+    {
+        if( a.height == b.height )
+        {
+            if( a.weight == b.weight )
+              return a.name.size() < b.name.size();
+            else return a.weight < b.weight;
+        }
+        else return a.height > b.height;
+    }
+    else return a.income > b.income;
+}*/
+
+int main()
+{
+    int n;
+    struct data ob;
+    cin>>n;
+    vector<struct data> v;
+    for(int i = 0 ; i<n ; i++)
+    {
+        cin>>ob.name;
+        cin>>ob.height;
+        cin>>ob.weight;
+        cin>>ob.income;
+        v.pb(ob);
+    }
+    sort(v.begin(),v.end());
+    for(int i = 0 ; i<n ; i++)
+    {
+        cout<<v[i].name<<" "<<v[i].height<<" "<<v[i].income<<"\n";
+    }
+}
