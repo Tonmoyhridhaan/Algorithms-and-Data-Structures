@@ -1,0 +1,47 @@
+
+/*____segment sieve -> l,r <= 10e10 and r-l<=100000___*/
+
+#include<bits/stdc++.h>
+using namespace std;
+#define i64 long long int
+const int N = 100000;
+i64 pr[N+1],k=1;
+i64 lp[N+1];
+bool arr[100005];
+void prime()
+{
+    for (int i=2; i<=N; ++i)
+    {
+        if (lp[i] == 0){lp[i] = i;pr[k++] = i;}
+        for (int j=1; j<k && pr[j]<=lp[i] && i*pr[j]<=N; ++j)
+            lp[i * pr[j]] = pr[j];
+    }
+}
+void seg_sieve(i64 l, i64 r)
+{
+    if(l==1) arr[0]=1;
+    for(int i=1;pr[i]*pr[i]<=r;i++)
+    {
+        i64 x=(((l+pr[i]-1)/pr[i])*pr[i]);
+        if(x==pr[i]) x+=pr[i];
+        for(i64 j=x;j<=r;j+=pr[i])
+            arr[j-l]=1;
+    }
+}
+int main()
+{
+    prime();
+    int t;
+    scanf("%d",&t);
+    while(t--)
+    {
+        i64 l,r;
+        bool x=1;
+        scanf("%lld%lld",&l,&r);
+        seg_sieve(l,r);
+        for(int i=0;i<(r-l)+1;i++)if(!arr[i])printf("%d\n",l+i);
+        printf("\n");
+        memset(arr,0,sizeof(arr));
+    }
+    return 0;
+}
