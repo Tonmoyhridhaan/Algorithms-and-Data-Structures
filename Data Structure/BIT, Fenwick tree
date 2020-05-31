@@ -1,0 +1,67 @@
+/*
+BIT diye 1-i porjonto max min 1uery kora jabe
+  i-j porjonto sum query kora jabe
+update and query complexity O(logn)
+*/
+
+#include<bits/stdc++.h>
+using namespace std;
+int arr[200005];
+int tree[200005];
+int query(int i) // 1-i porjonto query korbe...
+{
+    int sum = 0;
+    while(i>0)
+    {
+        sum += tree[i];
+        i -= (i & -i);
+    }
+    return sum;
+}
+
+void update(int i, int x, int n) // i point a x add korbe...
+{
+    while(i<=n)
+    {
+        tree[i] += x;
+        i += (i&-i);
+    }
+}
+int range_query(int i, int j) //i-j porjonto range er sum ber kore dibe
+{
+    int pre = query(i-1);
+    int suf = query(j);
+    return suf-pre;
+}
+void range_add(int i, int j, int x, int n) // i-j porjonto sum er sathe x add korbe..
+{
+    int k = i;
+    while(k<=n)
+    {
+        tree[k] += x;
+        k += (k&-k);
+    }
+    k=j+1;
+    while(k<=n)
+    {
+        tree[k] -= x;
+        k += (k&-k);
+    }
+}
+int main()
+{
+    int n;
+    cin >> n;
+    for(int i = 1 ; i<=n ; i++)
+    {
+        cin >> arr[i];
+        update(i,arr[i],n);
+    }
+    cout << range_query(2,4) << endl;
+    range_add(2,4,2,n);
+    cout << range_query(2,4) << endl;
+    cout << query(2) << endl;
+    cout << query(3) << endl;
+    cout << query(4) << endl;
+    return 0;
+}
