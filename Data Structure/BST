@@ -1,0 +1,183 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+class node
+{
+public:
+    int data;
+    node* parent;
+    node* left;
+    node* right;
+};
+
+//_______BST______//
+
+class bst
+{
+public:
+    node* root;
+    bst(){root=NULL;}
+    node* createNode(int data);
+    void addLchild(node* parent, node* child);
+    void addRchild(node* parent, node* child);
+    void insertNode(int data);
+    void inOrder(node* curNode);
+    void preOrder(node* curNode);
+    void postOrder(node* curNode);
+    bool isFound(int data);
+    node* findMin(node* curNode);
+    node* findMax(node* curNode);
+    void deleteNode(node* curNode, int data);
+};
+
+//____create node___//
+node* bst:: createNode(int data)
+{
+    node* newNode = new node;
+    newNode->data=data;
+    newNode->parent=NULL;
+    newNode->left=NULL;
+    newNode->right=NULL;
+    return newNode;
+}
+
+//___Add left child___//
+void bst:: addLchild(node* parent,node* child)
+{
+    parent->left=child;
+    if(child!=NULL) child->parent=parent;
+    return;
+}
+
+//___Add Right child___//
+void bst:: addRchild(node* parent,node* child)
+{
+    parent->right=child;
+    if(child!=NULL) child->parent=parent;
+    return;
+}
+
+//___Insert Node___//
+
+void bst:: insertNode(int data)
+{
+    node* newNode=createNode(data);
+    if(root==NULL)
+    {
+        root=newNode;
+        return;
+    }
+    node* curNode=root;
+    node* parentNode=NULL;
+    while(curNode!=NULL)
+    {
+        parentNode=curNode;
+        if(curNode->data>data) curNode=curNode->left;
+        else curNode=curNode->right;
+    }
+    if(data<parentNode->data) addLchild(parentNode,newNode);
+    else addRchild(parentNode,newNode);
+    return;
+}
+
+//____preorder Traversal____//
+void bst:: preOrder(node* curNode)
+{
+    printf("%d ",curNode->data);
+    if(curNode->left!=NULL) preOrder(curNode->left);
+    if(curNode->right!=NULL) preOrder(curNode->right);
+    return;
+}
+
+//____inorder Traversal_____//
+void bst:: inOrder(node* curNode)
+{
+    if(curNode->left!=NULL) inOrder(curNode->left);
+    printf("%d ",curNode->data);
+    if(curNode->right!=NULL) inOrder(curNode->right);
+    return;
+}
+
+
+//____postorder Traversal____//
+void bst:: postOrder(node* curNode)
+{
+    if(curNode->left!=NULL) postOrder(curNode->left);
+    if(curNode->right!=NULL) postOrder(curNode->right);
+    printf("%d ",curNode->data);
+    return;
+}
+
+//____Search Data___//
+bool bst:: isFound(int data)
+{
+    node* curNode=root;
+    while(curNode!=NULL)
+    {
+        if(curNode->data==data) return true;
+        if(data<curNode->data) curNode=curNode->left;
+        else curNode=curNode->right;
+    }
+    return false;
+}
+
+//______Find Minumum Value_____//
+node* bst:: findMin(node* curNode)
+{
+    if(curNode->left==NULL) return curNode;
+    findMin(curNode->left);
+}
+
+//______Find Maximum Value____//
+node* bst:: findMax(node* curNode)
+{
+    if(curNode->right==NULL) return curNode;
+    findMax(curNode->right);
+}
+
+//______Delete Node_______//
+node* deleteNode(node* curNode, int data)
+{
+    if(curNode==NULL) return curNode;
+    if(data<curNode->data)curNode->left=deleteNode(curNode->left,data);
+    else if(data>curNode->data)curNode->right=deleteNode(curNode->right,data);
+    else
+    {
+        if(curNode->left==NULL&&curNode->right==NULL) curNode=NULL;
+        else if(curNode->left==NULL) curNode=curNode->right;
+        else if(curNode->right==NULL) curNode=curNode->left;
+        else
+        {
+            bst x;
+            node* temp=x.findMin(curNode->right);
+            curNode->data=temp->data;
+            curNode->right=deleteNode(curNode->right,temp->data);
+        }
+    }
+    return curNode;
+}
+
+int main()
+{
+    bst x;
+    int arr[]={20,10,30,25,35,23,26,40};
+    for(int i=0;i<8;i++) x.insertNode(arr[i]);
+    x.preOrder(x.root);
+    printf("\n");
+    x.inOrder(x.root);
+    printf("\n");
+    x.postOrder(x.root);
+    printf("\n");
+    if(x.isFound(30)) printf("YES\n");
+    else printf("NO\n");
+    if(x.isFound(55)) printf("YES\n");
+    else printf("NO\n");
+    node* curNode=x.findMin(x.root);
+    printf("%d\n",curNode->data);
+    curNode=x.findMax(x.root);
+    printf("%d\n",curNode->data);
+    deleteNode(x.root,20);
+    x.preOrder(x.root);
+    printf("\n");
+    return 0;
+}
