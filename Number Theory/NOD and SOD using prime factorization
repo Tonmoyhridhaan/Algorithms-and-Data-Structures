@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define N 100000   //N er value hobe upper range er sqrt(n)+1
+int pr[N+1],k=1;
+int lp[N+1];
+void sieve()
+{
+    for (int i=2; i<=N; ++i)
+    {
+        if (lp[i] == 0){lp[i] = i;pr[k++] = i;}
+        for (int j=1; j<k && pr[j]<=lp[i] && i*pr[j]<=N; ++j)
+            lp[i * pr[j]] = pr[j];
+    }
+}
+
+int NOD(int n)
+{
+    int div=1;
+    for(int i=1;pr[i]*pr[i]<=n;i++)
+    {
+        int cnt=1;
+        while(n%pr[i]==0){cnt++;n/=pr[i];}
+        div*=cnt;
+    }
+    if(n>1) div<<=1;
+    return div;
+}
+
+i64 SOD(int n)
+{
+    i64 sum=1;
+    for(int i=1;pr[i]*pr[i]<=n;i++)
+    {
+        int cnt=1;
+        while(n%pr[i]==0){cnt++;n/=pr[i];}
+        sum*=(pow(1LL*pr[i],cnt)-1)/(1LL*(pr[i]-1));
+    }
+    if(n>1) sum*=(pow(1LL*n,2)-1)/(1LL*(n-1));
+    return sum;
+}
+
+int main()
+{
+    sieve();
+    cout<<NOD(6)<<endl;
+    cout<<SOD(6);
+    return 0;
+}
