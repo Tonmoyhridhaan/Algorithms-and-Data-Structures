@@ -1,5 +1,6 @@
 #include<bits/stdc++.h>
 using namespace std;
+#define i64 long long
 #define N 100000   //N er value hobe upper range er sqrt(n)+1
 int pr[N+1],k=1;
 int lp[N+1];
@@ -16,7 +17,7 @@ void sieve()
 int NOD(int n)
 {
     int div=1;
-    for(int i=1;pr[i]*pr[i]<=n;i++)
+    for(int i=1;pr[i]*pr[i]<=n&&i<k;i++)
     {
         int cnt=1;
         while(n%pr[i]==0){cnt++;n/=pr[i];}
@@ -29,7 +30,7 @@ int NOD(int n)
 i64 SOD(int n)
 {
     i64 sum=1;
-    for(int i=1;pr[i]*pr[i]<=n;i++)
+    for(int i=1;pr[i]*pr[i]<=n&&i<k;i++)
     {
         int cnt=1;
         while(n%pr[i]==0){cnt++;n/=pr[i];}
