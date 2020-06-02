@@ -9,7 +9,7 @@ const double pi = 2*acos(0) ;
 const int maxn = (i64)2e5+5;
 
 vector<int>v;
-const int N = 1000000;
+const int N = 1000000;  //highest number er sqrt(n)+2 porjonto ber korte hobe
 int pr[N+1],k=1;
 int lp[N+1];
 int sieve()
@@ -30,7 +30,7 @@ return 0;
 int prime_fact(int n)
 {
     int i;
-    for(i = 1 ; pr[i]<=sqrt(n); i++)
+    for(i = 1 ; pr[i]*pr[i]<=n; i++)
     {
         while(n%pr[i] == 0)
         {
