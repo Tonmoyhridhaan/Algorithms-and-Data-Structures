@@ -1,0 +1,19 @@
+#include<bits/stdc++.h>
+using namespace std;
+#define N 100000   //N er value hobe upper range er sqrt(n)+1
+int phi[N];
+void phi_sieve()
+{
+    phi[1]=1;
+    for(int i=2;i<=N;i++) phi[i]=i-1;
+    for(int i=2;i<=N;i++)
+        for(int j=2*i;j<=N;j+=i)
+            phi[j]-=phi[i];
+}
+
+int main()
+{
+    phi_sieve();
+    cout<<phi[120];
+    return 0;
+}
