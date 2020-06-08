@@ -1,0 +1,45 @@
+/* Range update and Range Query korar jonno ei BIT */
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int tree[2][200005];
+int n=10;
+
+int query(bool x,int i){
+    int sum=0;
+    while(i>0){
+        sum+=tree[x][i];
+        i-=i&(-i);
+    }
+    return sum;
+}
+void up(bool x, int i, int val){
+    int sum=0;
+    while(i<=n){
+        tree[x][i]+=val;
+        i+=i&(-i);
+    }
+}
+void range_update(int l,int r,int val){
+    up(0,l,val);
+    up(0,r+1,-val);
+    up(1,l,val*(l-1));
+    up(1,r+1,-val*r);
+}
+int range_query(int l,int r){
+    int x=(query(0,r)*r)-query(1,r);
+    int y=(query(0,(l-1))*(l-1))-query(1,(l-1));
+    return x-y;
+}
+int main(){
+    range_update(1,1,1);
+    range_update(2,2,2);
+    range_update(3,3,3);
+    range_update(4,4,4);
+    range_update(5,5,5);
+    cout<<range_query(3,5)<<endl;
+    range_update(1,5,3);
+    cout<<range_query(3,5);
+    return 0;
+}
