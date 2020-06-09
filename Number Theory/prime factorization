@@ -25,14 +25,10 @@ void sieve(){
 
 void prime_fact(int n)
 {
-    int i;
-    for(i = 1 ; pr[i]*pr[i]<=n; i++){
-        while(n%pr[i] == 0){
-            v.pb(pr[i]);        //if condition use kore ei line ta upore kore dile prime dividsors paoa jabe
-            n /= pr[i];
-        }
+    while(n>1){
+        v.pb(lp[n]);
+        n/=lp[n];
     }
-    if(n>1) v.pb(n);
 }
 
 int main()
