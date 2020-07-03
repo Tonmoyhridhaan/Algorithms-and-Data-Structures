@@ -1,37 +1,32 @@
 //___prime sieve
 #include<bits/stdc++.h>
+
 using namespace std;
-bool status[1100002] = {0};
-int prime()
-{
-    int N = 1100000;
-    int sq = sqrt(N);
-
-    for(int i = 4 ; i<=N ; i+=2) status[i] = 1;
-    for(int i = 3 ; i<=sq ; i+=2)
-    {
-        if(status[i] == 0)
-        {
-            for(int j = i*i ; j<=N ; j+=i)
-            {
-                status[j] = 1;
-            }
+#define mx 1000006
+vector<int>prime;
+bool vis[mx];
+void sieve() {
+    int x=sqrt((int)mx);
+    for(int i=3; i<=x; i+=2) {
+        if(vis[i]==0) {
+            for(int j=i*i; j<mx; j+=(i<<1))
+                vis[j]=1;
         }
-
     }
-    status[1] = 1;
-return 0;
-
+    prime.push_back(2);
+    for(int i=3; i<mx; i+=2)
+        if(vis[i]==0)
+            prime.push_back(i);
 }
 int main()
 {
-    prime();
-
+    sieve();
     int n;
     while(1)
     {
         cin>>n;
-        if(status[n] == 0) cout<<"Prime"<<endl;
+        if(sieve[n] == 0) cout<<"Prime"<<endl;
         else cout<<"not prime"<<endl;
     }
+    return 0;
 }
