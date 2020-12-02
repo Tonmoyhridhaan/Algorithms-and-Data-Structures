@@ -1,0 +1,27 @@
+#include<bits/stdc++.h>
+using namespace std;
+int arr[100];
+int ternary_search(int left, int right, int x){
+    if(right-left>0){
+        int midfirst = left + (right-left)/3;
+        int midsecond = midfirst + (right-left)/3;
+        if(arr[midfirst]==x) return midfirst;
+        else if(arr[midsecond]==x) return midsecond;
+        else if(x<arr[midfirst])
+            return ternary_search(left,midfirst,x);
+        else if(x>arr[midsecond])
+            return ternary_search(midsecond+1,right,x);
+        else return ternary_search(midfirst,midsecond,x);
+    }
+    else return -1;
+}
+int main(){
+    int n;
+    cin>>n;
+    for(int i=0;i<n;i++)
+        cin>>arr[i];
+    int x;
+    cin>>x;
+    cout << ternary_search(0,n-1,x) ;
+}
+//5 10 14 15 20 25 30 32 35 38
