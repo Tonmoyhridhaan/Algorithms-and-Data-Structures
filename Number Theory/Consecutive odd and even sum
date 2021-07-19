@@ -1,0 +1,17 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main(){
+    int n;
+    cin >> n;
+    int odd_sum,even_sum,odds;
+    if(n&1){
+         odds = (n>>1)+1;
+    }
+    else odds = (n>>1);
+
+    odd_sum = odds*odds;
+    even_sum = ((n*(n+1))>>1) - odd_sum;
+    cout << "Odd consecutive sum = " << odd_sum << endl;
+    cout << "Even consecutive sum = " << even_sum << endl;
+    return 0;
+}
